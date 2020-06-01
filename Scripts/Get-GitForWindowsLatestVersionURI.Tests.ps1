@@ -7,7 +7,7 @@ Describe 'Get-GitForWindowsLatestVersionURI' {
 	It "Retrieves the latest version from the GitHub Releases page" {
 
 		Mock Invoke-WebRequest -ParameterFilter { $Uri -eq "https://api.github.com/repos/git-for-windows/git/releases/latest" } { @{
-			Content = Get-Content "Get-GitForWindowsLatestVersionURI.Tests.json"
+			Content = Get-Content "${here}/Get-GitForWindowsLatestVersionURI.Tests.json"
 		} }
 
 		$LatestVersionDownloadURI = Get-GitForWindowsLatestVersionURI

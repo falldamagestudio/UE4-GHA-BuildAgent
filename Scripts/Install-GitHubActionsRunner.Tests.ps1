@@ -6,11 +6,11 @@ Describe 'Install-GitHubActionsRunner' {
 
 	It "Fetches and installs runner" {
 
-		$InstallationFolder = "Runner"
+		$InstallationFolder = "${here}/Runner"
 
 		$DownloadURI = "https://examplesite.com/GitHubActionsRunner.zip"
 
-		$LocalRunnerZipLocation = "Install-GitHubActionsRunner.Tests.zip"
+		$LocalRunnerZipLocation = "${here}/Install-GitHubActionsRunner.Tests.zip"
 
 		try {
 

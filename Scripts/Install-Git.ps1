@@ -15,7 +15,11 @@ function Install-Git {
 	
 	$InstallerLocation = (Join-Path $TempFolder -ChildPath $InstallerExeName)
 
+	New-Item -Path $TempFolder -ItemType Directory | Out-Null
+
 	Invoke-WebRequest -Uri $DownloadURI -OutFile $InstallerLocation
 
-	Invoke-External -LiteralPath "$InstallerLocation" "/SILENT"
+	Start-Process -FilePath $InstallerLocation -ArgumentList "/SILENT" -NoNewWindow -Wait
+
+	Remove-Item $TempFolder -Recurse
 }

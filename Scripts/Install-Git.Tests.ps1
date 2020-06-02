@@ -2,8 +2,6 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 $sut = (Split-Path -Leaf $MyInvocation.MyCommand.Path) -replace '\.Tests\.', '.'
 . "$here\$sut"
 
-. "$here\Invoke-External.ps1"
-
 Describe 'Install-Git' {
 
 	It "Fetches and installs git" {
@@ -16,7 +14,7 @@ Describe 'Install-Git' {
 
 		Mock Invoke-WebRequest -ParameterFilter { $DownloadURI -eq $InstallerDownloadURI } { $CachedOutFile = $OutFile }
 
-		Mock Invoke-External -ParameterFilter { $LiteralPath -eq "${LocalRunnerZipLocation}" } { return $true }
+		Mock Start-Process -ParameterFilter { $FilePath -eq $LocalRunnerZipLocation } { }
 
 		Install-Git -DownloadURI $InstallerDownloadURI
 	}

@@ -14,5 +14,16 @@
       },
       "zone": "europe-west1-b"
     }
+  ],
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "Scripts",
+      "destination": "."
+    },
+    {
+      "type": "powershell",
+      "inline": "./Scripts/Setup-Image.ps1"
+    }
   ]
 }

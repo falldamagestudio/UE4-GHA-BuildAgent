@@ -15,7 +15,7 @@ function Install-GitHubActionsRunner {
 
 	$ZipFileLocation = (Join-Path $InstallationFolder -ChildPath $ZipFileName)
 
-	New-Item -Path $InstallationFolder -ItemType Directory
+	New-Item -Path $InstallationFolder -ItemType Directory | Out-Null
 
 	Invoke-WebRequest -Uri $RunnerDownloadURI -OutFile $ZipFileLocation
 	Expand-Archive -LiteralPath $ZipFileLocation -DestinationPath $InstallationFolder

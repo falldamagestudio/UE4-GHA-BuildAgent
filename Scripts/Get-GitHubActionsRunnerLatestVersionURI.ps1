@@ -6,9 +6,7 @@ function Get-GitHubActionsRunnerLatestVersionURI {
 		Scans the GitHub Actions Runner release list and returns the URI for the newest Windows version
 	#>
 
-	$Platform = "win64"
-
-	$LatestVersionLabel = ((Invoke-WebRequest -Uri "https://api.github.com/repos/actions/runner/releases/latest").Content | ConvertFrom-Json).tag_name
+	$LatestVersionLabel = ((Invoke-WebRequest -UseBasicParsing -Uri "https://api.github.com/repos/actions/runner/releases/latest").Content | ConvertFrom-Json).tag_name
 
 	$LatestVersion = $LatestVersionLabel.Substring(1)
 

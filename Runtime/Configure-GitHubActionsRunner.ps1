@@ -46,6 +46,6 @@ function Configure-GitHubActionsRunner {
 			$Arguments += $AgentName
 		}
 
-		Start-Process -FilePath (Join-Path -Path $GitHubActionsInstallationFolder -ChildPath "config.cmd") -ArgumentList $Arguments
+		Start-Process -FilePath (Join-Path -Path $GitHubActionsInstallationFolder -ChildPath "config.cmd") -ArgumentList $Arguments -Wait -NoNewWindow
 	}
 }

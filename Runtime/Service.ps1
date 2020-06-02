@@ -12,14 +12,6 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . $here\Configure-GitHubActionsRunner.ps1
 . $here\Run-GitHubActionsRunner.ps1
 
-$DriveLetter = "C"
-$GitHubActionsInstallationFolder = "C:\A"
-
-
-Write-Host "Resizing ${DriveLetter} partition to max size..."
-
-Resize-PartitionToMaxSize -DriveLetter $DriveLetter
-
 Write-Host "Configuring GitHub Actions runner..."
 
 $ConfigureParams = @{
@@ -28,8 +20,8 @@ $ConfigureParams = @{
     GitHubScope = $GitHubScope
 }
 
-if ($PSBoundParameters.ContainsKey('GitHubHostname')) { $ConfigurParams.GitHubHostname = $GitHubHostname }
-if ($PSBoundParameters.ContainsKey('AgentName')) { $ConfigurParams.AgentName = $AgentName }
+if ($PSBoundParameters.ContainsKey('GitHubHostname')) { $ConfigureParams.GitHubHostname = $GitHubHostname }
+if ($PSBoundParameters.ContainsKey('AgentName')) { $ConfigureParams.AgentName = $AgentName }
 
 Configure-GitHubActionsRunner @ConfigureParams
 

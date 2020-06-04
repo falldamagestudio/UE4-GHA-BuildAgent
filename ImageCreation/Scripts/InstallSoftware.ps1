@@ -1,12 +1,14 @@
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 
-. $here\Get-GitHubActionsRunnerLatestVersionURI.ps1
-. $here\Install-GitHubActionsRunner.ps1 
+. $here\..\Tools\Scripts\Get-GitHubActionsRunnerLatestVersionURI.ps1
+. $here\..\Tools\Scripts\Install-GitHubActionsRunner.ps1 
 
-. $here\Get-GitForWindowsLatestVersionURI.ps1
-. $here\Install-Git.ps1
+. $here\..\Tools\Scripts\Get-GitForWindowsLatestVersionURI.ps1
+. $here\..\Tools\Scripts\Install-Git.ps1
 
-. $here\Install-VisualStudioBuildTools.ps1
+. $here\..\Tools\Scripts\Install-VisualStudioBuildTools.ps1
+
+. $here\..\Tools\Scripts\Register-AutoStartService.ps1
 
 $GitHubActionsInstallationFolder = "C:\A"
 

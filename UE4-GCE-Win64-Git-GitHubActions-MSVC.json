@@ -18,12 +18,29 @@
   "provisioners": [
     {
       "type": "file",
-      "source": "Scripts",
-      "destination": "."
+      "source": "ImageCreation",
+      "destination": "C:\\"
+    },
+    {
+      "type": "file",
+      "source": "Runtime",
+      "destination": "C:\\"
     },
     {
       "type": "powershell",
-      "inline": "./Scripts/Setup-Image.ps1"
+      "inline": "C:\\ImageCreation\\Scripts\\InstallSoftware.ps1"
+    },
+    {
+      "type": "powershell",
+      "inline": "C:\\ImageCreation\\Scripts\\GCERegisterServices.ps1"
+    },
+    {
+      "type": "powershell",
+      "inline": "Invoke-Pester -Script C:\\ImageCreation\\Scripts\\VerifyInstance.ps1"
+    },
+    {
+      "type": "powershell",
+      "inline": "Remove-Item -Force -Recurse C:\\ImageCreation"
     }
   ]
 }

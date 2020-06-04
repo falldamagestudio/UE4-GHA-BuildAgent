@@ -8,9 +8,9 @@ param (
 
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 
-. $here\Resize-PartitionToMaxSize.ps1
-. $here\Configure-GitHubActionsRunner.ps1
-. $here\Run-GitHubActionsRunner.ps1
+. $here\..\Tools\Scripts\Resize-PartitionToMaxSize.ps1
+. $here\..\Tools\Scripts\Configure-GitHubActionsRunner.ps1
+. $here\..\Tools\Scripts\Run-GitHubActionsRunner.ps1
 
 Write-Host "Configuring GitHub Actions runner..."
 

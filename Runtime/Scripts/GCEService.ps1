@@ -1,8 +1,8 @@
 
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 
-. $here\Get-GCEInstanceMetadata.ps1
-. $here\Resize-PartitionToMaxSize.ps1
+. $here\..\Tools\Scripts\Get-GCEInstanceMetadata.ps1
+. $here\..\Tools\Scripts\Resize-PartitionToMaxSize.ps1
 
 $DriveLetter = "C"
 $GitHubActionsInstallationFolder = "C:\A"

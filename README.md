@@ -12,13 +12,13 @@ The following configuration is supported:
 
 # How to use
 
-`packer build UE4-GCE-Win64-Git-GitHubActions-MSVC.json` -- this will build a VM image with a name on the form `packer-...` and store it within the chosen GCE project.
+`packer build -var project_id=<your GCE project ID> -var zone=<zone which the builder VM should be run in> -var image_name=<name> UE4-GCE-Win64-Git-GitHubActions-MSVC.json` -- this will build a VM image and store it within the chosen GCE project.
 
 Later on, you can create VM instances from the image. You can give them additional disk, up to 2TB.
 
 Example:
 ```
-gcloud compute instances create build-agent-1 --image=packer-1591213387 --boot-disk-type=pd-ssd --boot-disk-size=200GB --metadata=github-scope=falldamagestudio/UE4-GHA-Game,github-pat=<redacted>,runner-name=build-agent-1
+gcloud compute instances create build-agent-1 --image=my-build-agent-image --boot-disk-type=pd-ssd --boot-disk-size=200GB --metadata=github-scope=falldamagestudio/UE4-GHA-Game,github-pat=<redacted>,runner-name=build-agent-1
 ```
 
 The VM will automatically connect to the GitHub Actions org/repo at startup, and will be ready to process build jobs.

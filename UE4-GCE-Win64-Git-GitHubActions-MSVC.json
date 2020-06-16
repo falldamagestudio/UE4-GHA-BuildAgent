@@ -2,17 +2,18 @@
   "builders": [
     {
       "type": "googlecompute",
-      "project_id": "ue4-build-system-example",
-      "source_image": "windows-server-2019-dc-v20200512",
+      "project_id": "{{user `project_id`}}",
+      "source_image": "{{user `source_image`}}",
 	  "disk_size": "50",
       "communicator": "winrm",
+      "image_name": "{{user `image_name`}}",
       "winrm_username": "packer_user",
       "winrm_insecure": true,
       "winrm_use_ssl": true,
       "metadata": {
         "windows-startup-script-cmd": "winrm quickconfig -quiet & net user /add packer_user & net localgroup administrators packer_user /add & winrm set winrm/config/service/auth @{Basic=\"true\"}"
       },
-      "zone": "europe-west1-b"
+      "zone": "{{user `zone`}}"
     }
   ],
   "provisioners": [
@@ -42,5 +43,11 @@
       "type": "powershell",
       "inline": "Remove-Item -Force -Recurse C:\\ImageCreation"
     }
-  ]
+  ],
+  "variables": {
+    "project_id": "",
+    "zone": "",
+    "source_image": "windows-server-2019-dc-v20200512",
+    "image_name": ""
+  }
 }

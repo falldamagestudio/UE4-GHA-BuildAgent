@@ -8,6 +8,7 @@
       "disk_type": "pd-ssd",
       "communicator": "winrm",
       "image_name": "{{user `image_name`}}",
+      "state_timeout": "10m",
       "winrm_username": "packer_user",
       "winrm_insecure": true,
       "winrm_use_ssl": true,

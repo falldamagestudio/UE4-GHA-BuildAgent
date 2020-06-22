@@ -5,7 +5,7 @@
       "project_id": "{{user `project_id`}}",
       "source_image": "{{user `source_image`}}",
       "disk_size": "50",
-      "disk_type": "ssd",
+      "disk_type": "pd-ssd",
       "communicator": "winrm",
       "image_name": "{{user `image_name`}}",
       "winrm_username": "packer_user",

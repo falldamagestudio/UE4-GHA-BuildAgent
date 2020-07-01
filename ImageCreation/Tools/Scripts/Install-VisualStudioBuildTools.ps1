@@ -10,8 +10,22 @@ function Install-VisualStudioBuildTools {
 	$InstallerLocation = (Join-Path -Path $TempFolder -ChildPath $BuildToolsExeName)
 
 	Invoke-WebRequest -Uri "https://aka.ms/vs/16/release/vs_buildtools.exe" -OutFile $InstallerLocation
+
+	$WorkloadsAndComponents = @(
+		"Microsoft.VisualStudio.Workload.VCTools"
+		"Microsoft.VisualStudio.Component.VC.Tools.x86.x64"
+		"Microsoft.VisualStudio.Workload.ManagedDesktopBuildTools"
+		"Microsoft.VisualStudio.Component.Windows10SDK.18362"
+	)
+
+	$Args = @("--quiet", "--wait", "--norestart", "--nocache", "--installpath", $InstalledFolder)
 	
-	$Process = Start-Process -FilePath $InstallerLocation -ArgumentList "--quiet","--wait","--norestart","--nocache","--installpath",$InstalledFolder,"--add","Microsoft.VisualStudio.Workload.VCTools","--add","Microsoft.VisualStudio.Component.VC.Tools.x86.x64","--add","Microsoft.VisualStudio.Workload.ManagedDesktopBuildTools","--add","Microsoft.VisualStudio.Component.Windows10SDK.18362" -NoNewWindow -Wait -PassThru
+	foreach ($WorkloadOrComponent in $WorkloadsAndComponents) {
+		$Args += "--add"
+		$Args += $WorkloadOrComponent
+	}
+
+	$Process = Start-Process -FilePath $InstallerLocation -ArgumentList $Args -NoNewWindow -Wait -PassThru
 	
 	if (($Process.ExitCode -ne 0) -and ($Process.ExitCode -ne 3010)) {
 		throw

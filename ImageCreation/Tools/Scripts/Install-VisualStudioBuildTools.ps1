@@ -17,6 +17,7 @@ function Install-VisualStudioBuildTools {
 		"Microsoft.VisualStudio.Workload.ManagedDesktopBuildTools"
 		"Microsoft.VisualStudio.Component.Windows10SDK.18362"
 		"Microsoft.Net.Component.4.6.2.TargetingPack"	# Required when building AutomationTool
+		"Microsoft.Net.Component.4.5.TargetingPack"	# Required when building SwarmCoordinator
 	)
 
 	$Args = @("--quiet", "--wait", "--norestart", "--nocache", "--installpath", $InstalledFolder)

@@ -10,41 +10,53 @@ function Configure-GitHubActionsRunner {
 		[Parameter(Mandatory)] [string] $GitHubActionsInstallationFolder,
 		[Parameter(Mandatory)] [string] $GitHubPAT,
 		[Parameter(Mandatory)] [string] $GitHubScope,
-		[Parameter(Mandatory=$false)] [string] $GitHubHostname,
-		[Parameter(Mandatory=$false)] [string] $AgentName
+		[Parameter(Mandatory)] [string] $AgentName,
+		[Parameter(Mandatory=$false)] [string] $GitHubHostname
 	)
 
-	if (!(Test-Path (Join-Path -Path $GitHubActionsInstallationFolder -ChildPath ".runner"))) {
+	$GitHubApiUrl = if ($PSBoundParameters.ContainsKey('GitHubHostname')) { "https://${GitHubHostname}/api/v3" } else { "https://api.github.com" }
+
+	# if the scope has a slash, it's a repo runner 
+	$OrgsOrRepos = if ($GitHubScope -match "/") { "repos" } else { "orgs" }
+
+	$GitHubApiHeaders = @{
+		"accept" = "application/vnd.github.everest-preview+json"
+		"authorization" = "token ${GitHubPAT}"
+	}
+
+	$GetRunnersURI = "${GitHubApiUrl}/${OrgsOrRepos}/${GitHubScope}/actions/runners"
+
+	$RunnerAgentNames = (Invoke-RestMethod -Uri $GetRunnersURI -Headers $GitHubApiHeaders -Method Get).runners | ForEach-Object { $_.name }
+
+	$RunnerConfigFile = Join-Path -Path $GitHubActionsInstallationFolder -ChildPath ".runner"
+
+	if (!($RunnerAgentNames.Contains($AgentName)) -and (Test-Path $RunnerConfigFile)) {
+		Remove-Item -Force $RunnerConfigFile
+	}
+
+	if (!(Test-Path $RunnerConfigFile)) {
 		Write-Host "Runner is not configured; running configuration script"
-
-		$GitHubApiUrl = if ($PSBoundParameters.ContainsKey('GitHubHostname')) { "https://${GitHubHostname}/api/v3" } else { "https://api.github.com" }
-
-		# if the scope has a slash, it's a repo runner 
-		$OrgsOrRepos = if ($GitHubScope -match "/") { "repos" } else { "orgs" }
 
 		$GetTokenURI = "${GitHubApiUrl}/${OrgsOrRepos}/${GitHubScope}/actions/runners/registration-token"
 
-		$GetTokenHeaders = @{
-			"accept" = "application/vnd.github.everest-preview+json"
-			"authorization" = "token ${GitHubPAT}"
-		}
-
-		$Token = (Invoke-WebRequest -UseBasicParsing -Uri $GetTokenURI -Headers $GetTokenHeaders -Method Post | ConvertFrom-Json).Token
+		$Token = (Invoke-WebRequest -UseBasicParsing -Uri $GetTokenURI -Headers $GitHubApiHeaders -Method Post | ConvertFrom-Json).Token
 
 		$RegistrationURI = if ($PSBoundParameters.ContainsKey('GitHubHostname')) { "https://${GitHubHostname}/${GitHubScope}" } else { "https://github.com/${GitHubScope}" }
 
 		$Arguments = @(
 			"--unattended"
+			"--replace"
 			"--url"
 			$RegistrationURI
 			"--token"
 			$Token
 		)
 
-		if ($PSBoundParameters.ContainsKey('AgentName')) {
-			$Arguments += "--name"
-			$Arguments += $AgentName
-		}
+		$Arguments += "--name"
+		$Arguments += $AgentName
+
+		$Arguments += "--labels"
+		$Arguments += $AgentName
 
 		Start-Process -FilePath (Join-Path -Path $GitHubActionsInstallationFolder -ChildPath "config.cmd") -ArgumentList $Arguments -Wait -NoNewWindow
 	}

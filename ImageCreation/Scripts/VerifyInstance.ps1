@@ -2,6 +2,11 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 Describe 'VerifyInstance' {
 
+	It "Has Win32 Long Paths enabled" {
+		$LongPathsEnabled = (Get-ItemProperty -path HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem -name "LongPathsEnabled").LongPathsEnabled
+		$LongPathsEnabled | Should Not Be 0
+	}
+
 	It "Has Git available on the command line" {
 		Start-Process -FilePath "Git" -ArgumentList "--version" -NoNewWindow -Wait
 	}

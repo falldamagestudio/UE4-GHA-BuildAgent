@@ -1,5 +1,7 @@
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 
+. $here\..\Tools\Scripts\Enable-Win32LongPaths.ps1
+
 . $here\..\Tools\Scripts\Get-GitHubActionsRunnerLatestVersionURI.ps1
 . $here\..\Tools\Scripts\Install-GitHubActionsRunner.ps1 
 
@@ -10,9 +12,11 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 . $here\..\Tools\Scripts\Install-DebuggingToolsForWindows.ps1
 
-. $here\..\Tools\Scripts\Register-AutoStartService.ps1
-
 $GitHubActionsInstallationFolder = "C:\A"
+
+Write-Host "Enabling Win32 Long Paths..."
+
+Enable-Win32LongPaths
 
 Write-Host "Installing GitHub Actions runner..."
 

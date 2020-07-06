@@ -12,6 +12,8 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 . $here\..\Tools\Scripts\Install-DebuggingToolsForWindows.ps1
 
+. $here\..\Tools\Scripts\Install-DirectXRedistributable.ps1
+
 $GitHubActionsInstallationFolder = "C:\A"
 
 Write-Host "Enabling Win32 Long Paths..."
@@ -34,6 +36,12 @@ Install-VisualStudioBuildTools
 
 Write-Host "Installing Debugging Tools for Windows..."
 
+# This provides PDBCOPY.EXE which is used when packaging up the Engine
 Install-DebuggingToolsForWindows
+
+Write-Host "Installing DirectX Redistributable..."
+
+# This provides XINPUT1_3.DLL which is used when running the C++ apps (UE4Editor-Cmd.exe for example), even in headless mode
+Install-DirectXRedistributable
 
 Write-Host "Done."

@@ -7,8 +7,8 @@ function Install-DirectXRedistributable {
 
 	$InstallerLocation = (Join-Path -Path $TempFolder -ChildPath $RedistExeName)
 
-	# Download DirectX End-User Runtimes (June 2010)
-	Invoke-WebRequest -UseBasicParsing -Uri "https://download.microsoft.com/download/8/4/A/84A35BF1-DAFE-4AE8-82AF-AD2AE20B6B14/directx_Jun2010_redist.exe" -OutFile $InstallerLocation
+	# Download DirectX End-User Runtime Web Installer
+	Invoke-WebRequest -UseBasicParsing -Uri "https://download.microsoft.com/download/1/7/1/1718CCC4-6315-4D8E-9543-8E28A4E18C4C/dxwebsetup.exe" -OutFile $InstallerLocation
 	
 	$Process = Start-Process -FilePath $InstallerLocation -ArgumentList "/q" -NoNewWindow -Wait -PassThru
 	

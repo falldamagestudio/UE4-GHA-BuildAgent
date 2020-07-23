@@ -21,5 +21,5 @@ function Install-GitHubActionsLoggingSourceForGCELoggingAgent {
 
 	$ConfFileLocation = Join-Path -Path $GCELoggingAgentInstallationFolder -ChildPath "config.d\GitHubActionsRunner.conf"
 
-	$ConfFile | Out-File -FilePath $ConfFileLocation -Encoding UTF8
+	$ConfFile | Out-File -FilePath $ConfFileLocation -Encoding ASCII
 }

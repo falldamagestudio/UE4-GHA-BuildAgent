@@ -14,6 +14,9 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 . $here\..\Tools\Scripts\Install-DirectXRedistributable.ps1
 
+. $here\..\Tools\Scripts\Install-GCELoggingAgent.ps1
+. $here\..\Tools\Scripts\Install-GitHubActionsLoggingSourceForGCELoggingAgent.ps1
+
 $GitHubActionsInstallationFolder = "C:\A"
 
 Write-Host "Enabling Win32 Long Paths..."
@@ -43,5 +46,15 @@ Write-Host "Installing DirectX Redistributable..."
 
 # This provides XINPUT1_3.DLL which is used when running the C++ apps (UE4Editor-Cmd.exe for example), even in headless mode
 Install-DirectXRedistributable
+
+Write-Host "Installing GCE Logging Agent..."
+
+# This will provide the basic forwarding of logs to GCP Logging, and send various Windows Event log activity there
+Install-GCELoggingAgent
+
+Write-Host "Installing forwarding of GitHubActions Runner logs to GCP Logging..."
+
+# This will capture GitHub Actions runner output and send it to GCP Logging
+Install-GitHubActionsLoggingSourceForGCELoggingAgent -GitHubActionsRunnerInstallationFolder $GitHubActionsInstallationFolder
 
 Write-Host "Done."

@@ -1,0 +1,24 @@
+<source>
+  @type tail
+
+  <parse>
+    @type multiline
+    format_firstline /^\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}\:\d{2}Z (\w+) (\w+)\] /
+    format1 /^\[(?<timestamp>\d{4}-\d{2}-\d{2} \d{2}:\d{2}\:\d{2}Z) (?<severity>\w+) (?<source>\w+)\] (?<message>[\s\S]*)/
+  </parse>
+
+  # Paths with wildcards need to use forward slashes rather than backslashes on Windows, according to https://docs.fluentd.org/input/tail#wildcard-pattern-in-path-does-not-work-on-windows-why
+  # If the GitHub Actions runner has been installed into C:\A, then this should result in a line like:
+  # path 'C:/A/_diag/Runner_*.log'
+  path '[GITHUB_ACTIONS_RUNNER_INSTALL_FOLDER_WITH_FORWARD_SLASHES]/_diag/Runner_*.log'
+
+  # This assumes that the Stackdriver Logging Agent has been installed to its default location
+  # If the Stackdriver Logging agent has been installed into its default location, then this should result in a line like:
+  # pos_file 'C:\Program Files (x86)\Stackdriver\LoggingAgent\Main\pos\github-actions-runner.pos'
+  pos_file '[STACKDRIVER_LOGGING_AGENT_INSTALL_FOLDER]\Main\pos\github-actions-runner.pos'
+
+  refresh_interval 10
+
+  read_from_head true
+  tag github-actions-runner
+</source>

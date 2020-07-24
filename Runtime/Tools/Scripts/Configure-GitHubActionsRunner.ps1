@@ -30,8 +30,11 @@ function Configure-GitHubActionsRunner {
 
 	$RunnerConfigFile = Join-Path -Path $GitHubActionsInstallationFolder -ChildPath ".runner"
 
-	if (!($RunnerAgentNames.Contains($AgentName)) -and (Test-Path $RunnerConfigFile)) {
+	if ((($RunnerAgentNames -eq $null) -or !($RunnerAgentNames.Contains($AgentName))) -and (Test-Path $RunnerConfigFile)) {
+		Write-Host "Runner is not registered with the GHA backend; removing local configuration"
 		Remove-Item -Force $RunnerConfigFile
+		Remove-Item -Force (Join-Path -Path $GitHubActionsInstallationFolder -ChildPath ".credentials_rsaparams")
+		Remove-Item -Force (Join-Path -Path $GitHubActionsInstallationFolder -ChildPath ".credentials")
 	}
 
 	if (!(Test-Path $RunnerConfigFile)) {

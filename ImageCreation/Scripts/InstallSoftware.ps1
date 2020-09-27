@@ -4,6 +4,7 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 . $here\..\Tools\Scripts\Get-GitHubActionsRunnerLatestVersionURI.ps1
 . $here\..\Tools\Scripts\Install-GitHubActionsRunner.ps1 
+. $here\..\Tools\Scripts\Add-WindowsDefenderExclusionRule.ps1
 
 . $here\..\Tools\Scripts\Get-GitForWindowsLatestVersionURI.ps1
 . $here\..\Tools\Scripts\Install-Git.ps1
@@ -27,6 +28,10 @@ Write-Host "Installing GitHub Actions runner..."
 
 $GitHubActionsRunnerDownloadURI = Get-GitHubActionsRunnerLatestVersionURI
 Install-GitHubActionsRunner -RunnerDownloadURI $GitHubActionsRunnerDownloadURI -InstallationFolder $GitHubActionsInstallationFolder
+
+Write-Host "Adding Windows Defender exclusion rule for Github Actions runner folder..."
+
+Add-WindowsDefenderExclusionRule -Folder $GitHubActionsInstallationFolder
 
 Write-Host "Installing Git for Windows..."
 

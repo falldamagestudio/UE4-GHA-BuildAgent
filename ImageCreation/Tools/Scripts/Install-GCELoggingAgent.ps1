@@ -1,13 +1,19 @@
-function Install-GCELoggingAgent {
+class GCELoggingAgentInstallerException : Exception {
+	$ExitCode
 
-	param (
-		[Parameter(Mandatory)] [string] $InstallerDownloadURI
-	)
+	GCELoggingAgentInstallerException([int] $exitCode) : base("GCE Logging Agent installer exited with code ${exitCode}") { $this.ExitCode = $exitCode }
+}
+
+function Install-GCELoggingAgent {
 
 	<#
 		.SYNOPSIS
 		Downloads and installs the GCE Logging Agent.
 	#>
+
+	param (
+		[Parameter(Mandatory)] [string] $InstallerDownloadURI
+	)
 
 	$TempFolder = "C:\Temp"
 
@@ -17,19 +23,26 @@ function Install-GCELoggingAgent {
 
 	try {
 
-		$InstallerLocation = (Join-Path -Path $TempFolder -ChildPath $LoggingAgentInstallerExeName -ErrorAction Stop)
+		$InstallerLocation = (Join-Path -Path $TempFolder -ChildPath $LoggingAgentInstallerExeName)
 
-		Invoke-WebRequest -Uri $InstallerDownloadURI -OutFile $InstallerLocation -ErrorAction Stop
+		# This downloads and installs a fixed version of the logging agent.
+		# Reference: https://cloud.google.com/logging/docs/agent/installation#installing_a_specific_version_of_the_agent
+		# There is also an "install latest-available version" flow.
+		# It might also be possible to handle installation & upgrades via Agent Policies in the future.
 
-		$Process = Start-Process -FilePath $InstallerLocation -ArgumentList "/S" -NoNewWindow -Wait -PassThru -ErrorAction Stop
+		Invoke-WebRequest -UseBasicParsing -Uri $InstallerDownloadURI -OutFile $InstallerLocation -ErrorAction Stop
+
+		$Process = Start-Process -FilePath $InstallerLocation -ArgumentList "/S" -NoNewWindow -Wait -PassThru
+
+		# Installation is asynchronous; the agent has not yet completed installation when the installer exits.
 
 		if ($Process.ExitCode -ne 0) {
-			throw
+			throw [GCELoggingAgentInstallerException]::new($Process.ExitCode)
 		}
 
 	} finally {
 
-		Remove-Item -Recurse $TempFolder -Force -ErrorAction Ignore
+		Remove-Item -Recurse $TempFolder -ErrorAction SilentlyContinue
 
 	}
 }

@@ -62,19 +62,19 @@ build {
   }
 
   provisioner "powershell" {
-    inline = "try { C:\\ImageCreation\\Scripts\\InstallSoftware.ps1 } catch { Write-Error $_; exit 1 }"
+    inline = [ "try { C:\\ImageCreation\\Scripts\\InstallSoftware.ps1 } catch { Write-Error $_; exit 1 }" ]
   }
 
   provisioner "powershell" {
-    inline = "try { C:\\ImageCreation\\Scripts\\GCERegisterServices.ps1 } catch { Write-Error $_; exit 1 }"
+    inline = [ "try { C:\\ImageCreation\\Scripts\\GCERegisterServices.ps1 } catch { Write-Error $_; exit 1 }" ]
   }
 
   provisioner "powershell" {
-    inline = "exit (Invoke-Pester -Script C:\\ImageCreation\\Scripts\\VerifyInstance.ps1 -PassThru).FailedCount"
+    inline = [ "exit (Invoke-Pester -Script C:\\ImageCreation\\Scripts\\VerifyInstance.ps1 -PassThru).FailedCount" ]
   }
 
   provisioner "powershell" {
-    inline = "Remove-Item -Force -Recurse C:\\ImageCreation"
+    inline = [ "Remove-Item -Force -Recurse C:\\ImageCreation" ]
   }
 
 }

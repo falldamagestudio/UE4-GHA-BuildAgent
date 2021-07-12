@@ -24,7 +24,7 @@ Enable-Win32LongPaths
 
 Write-Host "Installing GitHub Actions runner..."
 
-$GitHubActionsRunnerDownloadURI = Get-GitHubActionsRunnerLatestVersionURI
+$GitHubActionsRunnerDownloadURI = "https://github.com/actions/runner/releases/download/v2.278.0/actions-runner-win-x64-2.278.0.zip"
 Install-GitHubActionsRunner -RunnerDownloadURI $GitHubActionsRunnerDownloadURI -InstallationFolder $GitHubActionsInstallationFolder
 
 Write-Host "Adding Windows Defender exclusion rule for Github Actions runner folder..."
@@ -33,7 +33,7 @@ Add-WindowsDefenderExclusionRule -Folder $GitHubActionsInstallationFolder
 
 Write-Host "Installing Git for Windows..."
 
-$GitForWindowsDownloadURI = Get-GitForWindowsLatestVersionURI
+$GitForWindowsDownloadURI = "https://github.com/git-for-windows/git/releases/download/v2.32.0.windows.2/Git-2.32.0.2-64-bit.exe"
 Install-Git -DownloadURI $GitForWindowsDownloadURI
 
 Write-Host "Installing Visual Studio Build Tools..."

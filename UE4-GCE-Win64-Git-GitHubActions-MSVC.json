@@ -49,7 +49,7 @@
   "variables": {
     "project_id": "",
     "zone": "",
-    "source_image": "windows-server-2019-dc-v20200512",
+    "source_image": "windows-server-2019-dc-v20210608",
     "image_name": ""
   }
 }

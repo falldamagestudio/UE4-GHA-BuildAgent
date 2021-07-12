@@ -8,7 +8,7 @@ function Install-VisualStudioBuildTools {
 
 	param (
 		[Parameter(Mandatory)] [string] $InstallerDownloadURI,
-		[Parameter(Mandatory)] $WorkloadsAndComponents
+		[Parameter(Mandatory)] [string[]] $WorkloadsAndComponents
 	)
 
 	$TempFolder = "C:\Temp"

@@ -32,7 +32,7 @@ Add-WindowsDefenderExclusionRule -Folder $GitHubActionsInstallationFolder
 
 Write-Host "Installing Git for Windows..."
 
-Install-Git -InstallerDownloadURI $ToolsAndVersions.$GitForWindowsDownloadURI
+Install-Git -InstallerDownloadURI $ToolsAndVersions.GitForWindowsDownloadURI
 
 Write-Host "Installing Visual Studio Build Tools..."
 

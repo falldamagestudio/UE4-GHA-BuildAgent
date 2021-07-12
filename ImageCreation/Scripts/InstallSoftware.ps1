@@ -1,22 +1,20 @@
-$here = Split-Path -Parent $MyInvocation.MyCommand.Path
+. ${PSScriptRoot}\..\Tools\Scripts\Enable-Win32LongPaths.ps1
 
-. $here\..\Tools\Scripts\Enable-Win32LongPaths.ps1
+. ${PSScriptRoot}\..\Tools\Scripts\Get-GitHubActionsRunnerLatestVersionURI.ps1
+. ${PSScriptRoot}\..\Tools\Scripts\Install-GitHubActionsRunner.ps1
+. ${PSScriptRoot}\..\Tools\Scripts\Add-WindowsDefenderExclusionRule.ps1
 
-. $here\..\Tools\Scripts\Get-GitHubActionsRunnerLatestVersionURI.ps1
-. $here\..\Tools\Scripts\Install-GitHubActionsRunner.ps1 
-. $here\..\Tools\Scripts\Add-WindowsDefenderExclusionRule.ps1
+. ${PSScriptRoot}\..\Tools\Scripts\Get-GitForWindowsLatestVersionURI.ps1
+. ${PSScriptRoot}\..\Tools\Scripts\Install-Git.ps1
 
-. $here\..\Tools\Scripts\Get-GitForWindowsLatestVersionURI.ps1
-. $here\..\Tools\Scripts\Install-Git.ps1
+. ${PSScriptRoot}\..\Tools\Scripts\Install-VisualStudioBuildTools.ps1
 
-. $here\..\Tools\Scripts\Install-VisualStudioBuildTools.ps1
+. ${PSScriptRoot}\..\Tools\Scripts\Install-DebuggingToolsForWindows.ps1
 
-. $here\..\Tools\Scripts\Install-DebuggingToolsForWindows.ps1
+. ${PSScriptRoot}\..\Tools\Scripts\Install-DirectXRedistributable.ps1
 
-. $here\..\Tools\Scripts\Install-DirectXRedistributable.ps1
-
-. $here\..\Tools\Scripts\Install-GCELoggingAgent.ps1
-. $here\..\Tools\Scripts\Install-GitHubActionsLoggingSourceForGCELoggingAgent.ps1
+. ${PSScriptRoot}\..\Tools\Scripts\Install-GCELoggingAgent.ps1
+. ${PSScriptRoot}\..\Tools\Scripts\Install-GitHubActionsLoggingSourceForGCELoggingAgent.ps1
 
 $GitHubActionsInstallationFolder = "C:\A"
 

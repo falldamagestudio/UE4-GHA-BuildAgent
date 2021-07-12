@@ -1,10 +1,8 @@
 . ${PSScriptRoot}\..\Tools\Scripts\Enable-Win32LongPaths.ps1
 
-. ${PSScriptRoot}\..\Tools\Scripts\Get-GitHubActionsRunnerLatestVersionURI.ps1
 . ${PSScriptRoot}\..\Tools\Scripts\Install-GitHubActionsRunner.ps1
 . ${PSScriptRoot}\..\Tools\Scripts\Add-WindowsDefenderExclusionRule.ps1
 
-. ${PSScriptRoot}\..\Tools\Scripts\Get-GitForWindowsLatestVersionURI.ps1
 . ${PSScriptRoot}\..\Tools\Scripts\Install-Git.ps1
 
 . ${PSScriptRoot}\..\Tools\Scripts\Install-VisualStudioBuildTools.ps1

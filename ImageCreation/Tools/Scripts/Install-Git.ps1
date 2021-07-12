@@ -7,7 +7,7 @@ function Install-Git {
 	#>
 
 	param (
-		[Parameter(Mandatory)] [string] $DownloadURI
+		[Parameter(Mandatory)] [string] $InstallerDownloadURI
 	)
 
 	$TempFolder = "C:\Temp"
@@ -19,7 +19,7 @@ function Install-Git {
 
 	try {
 
-		Invoke-WebRequest -Uri $DownloadURI -OutFile $InstallerLocation -ErrorAction Stop
+		Invoke-WebRequest -Uri $InstallerDownloadURI -OutFile $InstallerLocation -ErrorAction Stop
 
 		Start-Process -FilePath $InstallerLocation -ArgumentList "/SILENT" -NoNewWindow -Wait -ErrorAction Stop
 

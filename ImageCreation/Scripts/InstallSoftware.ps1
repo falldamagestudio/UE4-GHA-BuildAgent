@@ -18,14 +18,15 @@
 
 $GitHubActionsInstallationFolder = "C:\A"
 
+$ToolsAndVersions = Import-PowerShellDataFile ${PSScriptRoot}\ToolsAndVersions.psd1 -ErrorAction Stop
+
 Write-Host "Enabling Win32 Long Paths..."
 
 Enable-Win32LongPaths
 
 Write-Host "Installing GitHub Actions runner..."
 
-$GitHubActionsRunnerDownloadURI = "https://github.com/actions/runner/releases/download/v2.278.0/actions-runner-win-x64-2.278.0.zip"
-Install-GitHubActionsRunner -RunnerDownloadURI $GitHubActionsRunnerDownloadURI -InstallationFolder $GitHubActionsInstallationFolder
+Install-GitHubActionsRunner -RunnerDownloadURI $ToolsAndVersions.GitHubActionsRunnerDownloadURI -InstallationFolder $GitHubActionsInstallationFolder
 
 Write-Host "Adding Windows Defender exclusion rule for Github Actions runner folder..."
 
@@ -33,27 +34,26 @@ Add-WindowsDefenderExclusionRule -Folder $GitHubActionsInstallationFolder
 
 Write-Host "Installing Git for Windows..."
 
-$GitForWindowsDownloadURI = "https://github.com/git-for-windows/git/releases/download/v2.32.0.windows.2/Git-2.32.0.2-64-bit.exe"
-Install-Git -DownloadURI $GitForWindowsDownloadURI
+Install-Git -InstallerDownloadURI $ToolsAndVersions.$GitForWindowsDownloadURI
 
 Write-Host "Installing Visual Studio Build Tools..."
 
-Install-VisualStudioBuildTools
+Install-VisualStudioBuildTools -InstallerDownloadURI $ToolsAndVersions.VisualStudioBuildToolsDownloadURI -WorkloadsAndComponents $ToolsAndVersions.VisualStudioBuildTools_WorkloadsAndComponents
 
 Write-Host "Installing Debugging Tools for Windows..."
 
 # This provides PDBCOPY.EXE which is used when packaging up the Engine
-Install-DebuggingToolsForWindows
+Install-DebuggingToolsForWindows -InstallerDownloadURI $ToolsAndVersions.WindowsSDKDownloadURI
 
 Write-Host "Installing DirectX Redistributable..."
 
 # This provides XINPUT1_3.DLL which is used when running the C++ apps (UE4Editor-Cmd.exe for example), even in headless mode
-Install-DirectXRedistributable
+Install-DirectXRedistributable -InstallerDownloadURI $ToolsAndVersions.DirectXEndUserRuntimeWebInstallerDownloadURI
 
 Write-Host "Installing GCE Logging Agent..."
 
 # This will provide the basic forwarding of logs to GCP Logging, and send various Windows Event log activity there
-Install-GCELoggingAgent
+Install-GCELoggingAgent -InstallerDownloadURI $ToolsAndVersions.GCELoggingAgentInstallerDownloadURI
 
 Write-Host "Installing forwarding of GitHubActions Runner logs to GCP Logging..."
 

@@ -1,12 +1,15 @@
 function Install-GCELoggingAgent {
 
+	param (
+		[Parameter(Mandatory)] [string] $InstallerDownloadURI
+	)
+
 	<#
 		.SYNOPSIS
 		Downloads and installs the GCE Logging Agent.
 	#>
 
 	$TempFolder = "C:\Temp"
-	$LoggingAgentDownloadURI = "https://dl.google.com/cloudagents/windows/StackdriverLogging-v1-11.exe"
 
 	$LoggingAgentInstallerExeName = "LoggingAgent.exe"
 
@@ -16,7 +19,7 @@ function Install-GCELoggingAgent {
 
 		$InstallerLocation = (Join-Path -Path $TempFolder -ChildPath $LoggingAgentInstallerExeName -ErrorAction Stop)
 
-		Invoke-WebRequest -Uri $LoggingAgentDownloadURI -OutFile $InstallerLocation -ErrorAction Stop
+		Invoke-WebRequest -Uri $InstallerDownloadURI -OutFile $InstallerLocation -ErrorAction Stop
 
 		$Process = Start-Process -FilePath $InstallerLocation -ArgumentList "/S" -NoNewWindow -Wait -PassThru -ErrorAction Stop
 

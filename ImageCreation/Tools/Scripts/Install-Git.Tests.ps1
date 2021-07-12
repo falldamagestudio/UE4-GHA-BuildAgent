@@ -18,7 +18,7 @@ Describe 'Install-Git' {
 
 		Mock New-Item { }
 
-		Mock Invoke-WebRequest -ParameterFilter { $DownloadURI -eq $InstallerDownloadURI } { $CachedOutFile = $OutFile }
+		Mock Invoke-WebRequest -ParameterFilter { $InstallerDownloadURI -eq $InstallerDownloadURI } { $CachedOutFile = $OutFile }
 		Mock Invoke-WebRequest { throw "Invalid Invoke-WebRequest invocation" }
 
 		Mock Start-Process -ParameterFilter { $FilePath -eq $LocalRunnerZipLocation } { }
@@ -26,7 +26,7 @@ Describe 'Install-Git' {
 
 		Mock Remove-Item { }
 
-		Install-Git -DownloadURI $InstallerDownloadURI
+		Install-Git -InstallerDownloadURI $InstallerDownloadURI
 
 		Assert-MockCalled New-Item
 		Assert-MockCalled Invoke-WebRequest

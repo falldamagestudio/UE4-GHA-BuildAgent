@@ -22,3 +22,8 @@ gcloud compute instances create build-agent-1 --image=my-build-agent-image --boo
 ```
 
 The VM will automatically connect to the GitHub Actions org/repo at startup, and will be ready to process build jobs.
+
+# Updating application versions
+
+The file `ImageCreation/Scripts/ToolsAndVersions.psd1` contains download URLs for all applications that get installed by Packer.
+You upgrade application versions by manually updating the URLs in that file and then generating a new VM image.

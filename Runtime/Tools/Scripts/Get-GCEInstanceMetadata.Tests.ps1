@@ -1,6 +1,10 @@
-$here = Split-Path -Parent $MyInvocation.MyCommand.Path
-$sut = (Split-Path -Leaf $MyInvocation.MyCommand.Path) -replace '\.Tests\.', '.'
-. "$here\$sut"
+. ${PSScriptRoot}\Ensure-TestToolVersions.ps1
+
+BeforeAll {
+
+	. ${PSScriptRoot}\Get-GCEInstanceMetadata.ps1
+
+}
 
 Describe 'Get-GCEInstanceMetadata' {
 
@@ -17,7 +21,7 @@ Describe 'Get-GCEInstanceMetadata' {
 
 		Assert-MockCalled Invoke-WebRequest -ParameterFilter { $Uri -eq "http://metadata.google.internal/computeMetadata/v1/instance/attributes/testkey" }
 
-		$Value | Should Be "abc"
+		$Value | Should -Be "abc"
 	}
 
 	It "Returns null if the instance tag doesn't exist" {
@@ -28,6 +32,6 @@ Describe 'Get-GCEInstanceMetadata' {
 
 		Assert-MockCalled Invoke-WebRequest -ParameterFilter { $Uri -eq "http://metadata.google.internal/computeMetadata/v1/instance/attributes/testkey" }
 
-		$Value | Should Be $null
+		$Value | Should -Be $null
 	}
 }

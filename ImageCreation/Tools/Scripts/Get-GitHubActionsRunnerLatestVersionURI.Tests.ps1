@@ -1,6 +1,10 @@
-$here = Split-Path -Parent $MyInvocation.MyCommand.Path
-$sut = (Split-Path -Leaf $MyInvocation.MyCommand.Path) -replace '\.Tests\.', '.'
-. "$here\$sut"
+. ${PSScriptRoot}\Ensure-TestToolVersions.ps1
+
+BeforeAll {
+
+	. ${PSScriptRoot}\Get-GitHubActionsRunnerLatestVersionURI.ps1
+
+}
 
 Describe 'Get-GitHubActionsRunnerLatestVersionURI' {
 
@@ -43,6 +47,6 @@ Describe 'Get-GitHubActionsRunnerLatestVersionURI' {
 
 		$LatestVersionDownloadURI = Get-GitHubActionsRunnerLatestVersionURI
 
-		$LatestVersionDownloadURI | Should Be "https://github.com/actions/runner/releases/download/v2.262.1/actions-runner-win-x64-2.262.1.zip"
+		$LatestVersionDownloadURI | Should -Be "https://github.com/actions/runner/releases/download/v2.262.1/actions-runner-win-x64-2.262.1.zip"
 	}
 }

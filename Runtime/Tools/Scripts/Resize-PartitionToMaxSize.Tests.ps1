@@ -1,6 +1,10 @@
-$here = Split-Path -Parent $MyInvocation.MyCommand.Path
-$sut = (Split-Path -Leaf $MyInvocation.MyCommand.Path) -replace '\.Tests\.', '.'
-. "$here\$sut"
+. ${PSScriptRoot}\Ensure-TestToolVersions.ps1
+
+BeforeAll {
+
+	. ${PSScriptRoot}\Resize-PartitionToMaxSize.ps1
+
+}
 
 Describe 'Resize-PartitionToMaxSize' {
 
@@ -28,7 +32,8 @@ Describe 'Resize-PartitionToMaxSize' {
 
 		Resize-PartitionToMaxSize -DriveLetter $Drive
 		
-		Assert-MockCalled Resize-Partition -ParameterFilter { ($DriveLetter -eq $Drive) -and ($Size -eq $MaxSize) }
+		Assert-MockCalled -Times 1 Get-Partition
+		Assert-MockCalled -Times 1 Resize-Partition -ParameterFilter { ($DriveLetter -eq $Drive) -and ($Size -eq $MaxSize) }
 	}
 
 	It "Does not resize partition when there is no unallocated disk space available" {
@@ -53,6 +58,7 @@ Describe 'Resize-PartitionToMaxSize' {
 
 		Resize-PartitionToMaxSize -DriveLetter $Drive
 
-		Mock Resize-Partition -ParameterFilter { $DriveLetter -eq $Drive } { throw }
+		Assert-MockCalled -Times 1 Get-Partition
+		Assert-MockCalled -Times 0 Resize-Partition -ParameterFilter { $DriveLetter -eq $Drive }
 	}
 }

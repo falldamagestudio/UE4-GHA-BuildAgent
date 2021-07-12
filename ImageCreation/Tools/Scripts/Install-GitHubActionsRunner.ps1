@@ -17,14 +17,13 @@ function Install-GitHubActionsRunner {
 
 	try {
 
-		Invoke-WebRequest -Uri $RunnerDownloadURI -OutFile $ZipFileLocation -ErrorAction Stop
 		New-Item -Path $InstallationFolder -ItemType Directory  -ErrorAction Stop | Out-Null
+		Invoke-WebRequest -Uri $RunnerDownloadURI -OutFile $ZipFileLocation -ErrorAction Stop
 		Expand-Archive -LiteralPath $ZipFileLocation -DestinationPath $InstallationFolder -ErrorAction Stop
 
 	} finally {
 
 		Remove-Item $ZipFileLocation -Force -ErrorAction Ignore
-		Remove-Item $InstallationFolder -Recurse -Force -ErrorAction Ignore
 	}
 	
 }

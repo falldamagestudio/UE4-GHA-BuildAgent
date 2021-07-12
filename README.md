@@ -12,7 +12,7 @@ The following configuration is supported:
 
 # How to use
 
-`packer build -var project_id=<your GCE project ID> -var zone=<zone which the builder VM should be run in> -var image_name=<name> UE4-GCE-Win64-Git-GitHubActions-MSVC.hcl` -- this will build a VM image and store it within the chosen GCE project.
+`packer build -var project_id=<your GCE project ID> -var zone=<zone which the builder VM should be run in> -var image_name=<name> UE4-GCE-Win64-Git-GitHubActions-MSVC.pkr.hcl` -- this will build a VM image and store it within the chosen GCE project.
 
 Later on, you can create VM instances from the image. You can give them additional disk, up to 2TB.
 

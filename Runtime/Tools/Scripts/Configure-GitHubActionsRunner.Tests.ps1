@@ -1,6 +1,10 @@
-$here = Split-Path -Parent $MyInvocation.MyCommand.Path
-$sut = (Split-Path -Leaf $MyInvocation.MyCommand.Path) -replace '\.Tests\.', '.'
-. "$here\$sut"
+. ${PSScriptRoot}\Ensure-TestToolVersions.ps1
+
+BeforeAll {
+
+	. ${PSScriptRoot}\Configure-GitHubActionsRunner.ps1
+
+}
 
 Describe 'Configure-GitHubActionsRunner' {
 

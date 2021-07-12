@@ -1,16 +1,20 @@
-$here = Split-Path -Parent $MyInvocation.MyCommand.Path
-$sut = (Split-Path -Leaf $MyInvocation.MyCommand.Path) -replace '\.Tests\.', '.'
-. "$here\$sut"
+. ${PSScriptRoot}\Ensure-TestToolVersions.ps1
+
+BeforeAll {
+
+	. ${PSScriptRoot}\Install-GitHubActionsRunner.ps1
+
+}
 
 Describe 'Install-GitHubActionsRunner' {
 
 	It "Fetches and installs runner" {
 
-		$InstallationFolder = "${here}/Runner"
+		$InstallationFolder = "${PSScriptRoot}/Runner"
 
 		$DownloadURI = "https://examplesite.com/GitHubActionsRunner.zip"
 
-		$LocalRunnerZipLocation = "${here}/Install-GitHubActionsRunner.Tests.zip"
+		$LocalRunnerZipLocation = "${PSScriptRoot}/Install-GitHubActionsRunner.Tests.zip"
 
 		try {
 
@@ -18,8 +22,8 @@ Describe 'Install-GitHubActionsRunner' {
 
 			Install-GitHubActionsRunner -InstallationFolder $InstallationFolder -RunnerDownloadURI $DownloadURI
 
-			Test-Path (Join-Path -Path $InstallationFolder -ChildPath "hello.txt") | Should Be $true
-
+			Test-Path (Join-Path -Path $InstallationFolder -ChildPath "hello.txt") | Should -Be $true
+			
 		} finally {
 
 			Remove-Item -Force -Recurse $InstallationFolder

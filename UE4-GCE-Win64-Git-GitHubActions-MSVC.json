@@ -31,15 +31,15 @@
     },
     {
       "type": "powershell",
-      "inline": "C:\\ImageCreation\\Scripts\\InstallSoftware.ps1"
+      "inline": "try { C:\\ImageCreation\\Scripts\\InstallSoftware.ps1 } catch { Write-Error $_; exit 1 }"
     },
     {
       "type": "powershell",
-      "inline": "C:\\ImageCreation\\Scripts\\GCERegisterServices.ps1"
+      "inline": "try { C:\\ImageCreation\\Scripts\\GCERegisterServices.ps1 } catch { Write-Error $_; exit 1 }"
     },
     {
       "type": "powershell",
-      "inline": "Invoke-Pester -Script C:\\ImageCreation\\Scripts\\VerifyInstance.ps1"
+      "inline": "exit (Invoke-Pester -Script C:\\ImageCreation\\Scripts\\VerifyInstance.ps1 -PassThru).FailedCount"
     },
     {
       "type": "powershell",

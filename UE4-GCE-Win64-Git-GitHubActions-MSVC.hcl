@@ -19,6 +19,15 @@ variable "zone" {
   default = ""
 }
 
+packer {
+  required_plugins {
+    windows-update = {
+      version = "0.12.0"
+      source = "github.com/rgl/windows-update"
+    }
+  }
+}
+
 source "googlecompute" "build_machine" {
   communicator = "winrm"
   disk_size    = "50"
@@ -39,6 +48,9 @@ source "googlecompute" "build_machine" {
 build {
   sources = ["source.googlecompute.build_machine"]
 
+  provisioner "windows-update" {
+  }
+  
   provisioner "file" {
     destination = "C:\\"
     source      = "ImageCreation"

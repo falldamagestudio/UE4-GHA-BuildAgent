@@ -10,17 +10,23 @@ function Install-GCELoggingAgent {
 
 	$LoggingAgentInstallerExeName = "LoggingAgent.exe"
 
-	New-Item $TempFolder -ItemType Directory | Out-Null
+	New-Item $TempFolder -ItemType Directory -ErrorAction Stop | Out-Null
 
-	$InstallerLocation = (Join-Path -Path $TempFolder -ChildPath $LoggingAgentInstallerExeName)
+	try {
 
-	Invoke-WebRequest -Uri $LoggingAgentDownloadURI -OutFile $InstallerLocation
+		$InstallerLocation = (Join-Path -Path $TempFolder -ChildPath $LoggingAgentInstallerExeName -ErrorAction Stop)
 
-	$Process = Start-Process -FilePath $InstallerLocation -ArgumentList "/S" -NoNewWindow -Wait -PassThru
+		Invoke-WebRequest -Uri $LoggingAgentDownloadURI -OutFile $InstallerLocation -ErrorAction Stop
 
-	if ($Process.ExitCode -ne 0) {
-		throw
+		$Process = Start-Process -FilePath $InstallerLocation -ArgumentList "/S" -NoNewWindow -Wait -PassThru -ErrorAction Stop
+
+		if ($Process.ExitCode -ne 0) {
+			throw
+		}
+
+	} finally {
+
+		Remove-Item -Recurse $TempFolder -Force -ErrorAction Ignore
+
 	}
-
-	Remove-Item -Recurse $TempFolder
 }

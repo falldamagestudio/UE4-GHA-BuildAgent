@@ -15,11 +15,17 @@ function Install-Git {
 	
 	$InstallerLocation = (Join-Path $TempFolder -ChildPath $InstallerExeName)
 
-	New-Item -Path $TempFolder -ItemType Directory | Out-Null
+	New-Item $TempFolder -ItemType Directory -ErrorAction Stop | Out-Null
 
-	Invoke-WebRequest -Uri $DownloadURI -OutFile $InstallerLocation
+	try {
 
-	Start-Process -FilePath $InstallerLocation -ArgumentList "/SILENT" -NoNewWindow -Wait
+		Invoke-WebRequest -Uri $DownloadURI -OutFile $InstallerLocation -ErrorAction Stop
 
-	Remove-Item $TempFolder -Recurse
+		Start-Process -FilePath $InstallerLocation -ArgumentList "/SILENT" -NoNewWindow -Wait -ErrorAction Stop
+
+	} finally {
+
+		Remove-Item -Recurse $TempFolder -Force -ErrorAction Ignore
+
+	}
 }

@@ -23,5 +23,5 @@ function Register-AutoStartService {
 		$NssmArguments += $Arguments
 	}
 
-	Start-Process -FilePath $NssmLocation -ArgumentList $NssmArguments -Wait -NoNewWindow
+	Start-Process -FilePath $NssmLocation -ArgumentList $NssmArguments -Wait -NoNewWindow -ErrorAction Stop
 }

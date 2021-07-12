@@ -10,5 +10,5 @@ function Add-WindowsDefenderExclusionRule {
 		[Parameter(Mandatory)] [string] $Folder
 	)
 
-	Set-MpPreference -ExclusionPath $Folder -Force
+	Set-MpPreference -ExclusionPath $Folder -Force -ErrorAction Stop
 }
